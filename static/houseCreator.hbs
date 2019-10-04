@@ -8,11 +8,12 @@
     <title>Document</title>
 </head>
 <body>
-<form action="/houseCreator">
-    <p>City:</p><input type="text">
-    <p>Meters:</p><input type="number"><p>m^2</p>
-    <p>Price:</p><input type="text">
-    <p>Street</p><input type="text">
+<form action="/houseCreator" method="post">
+    <p>City: </p><input type="text" name="city">
+    <p>Meters: </p><input type="number" name="meters"><span>m^2</span>
+    <p>Price: </p><input type="text" name="price">
+    <p>Street: </p><input type="text" name="street">
+    <input type="submit">
 </form>
 </body>
 </html>

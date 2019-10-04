@@ -19,7 +19,11 @@ app.set('views', path.join(__dirname ,'static'));
 
 let users = [];
 
+let houses = [];
+
 let userId = 0;
+
+let houseId = 0;
 
 app.get('/', (req, res) =>{
     res.render('main');
@@ -47,10 +51,14 @@ app.get('/register', (req, res) =>{
 app.get('/house/:id', (req, res)=>{
     const {id} = req.params;
 
-    users.forEach((user)=>{
-        user.userId === +id ? res.render('house', {userId:`${user.userId}`})
-            : res.end('No such user in base');
+    houses.forEach((house)=>{
+        house.houseId === +id ? res.render('house', {city:`${house.city}`, meters:`${house.meters}`, price:`${house.price}`, street:`${house.street}`})
+            : res.end('No house user in base');
     });
+});
+
+app.get('/houseCreator', (req,res)=>{
+    res.render('houseCreator');
 });
 
 app.post('/login', (req, res) => {
@@ -65,7 +73,7 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-    let userData = req.body;
+    const userData = req.body;
 
     users.push(userData);
 
@@ -78,6 +86,21 @@ app.post('/register', (req, res) => {
     res.render('login');
 });
 
+app.post('/houseCreator', (req, res) => {
+    const houseData = req.body;
+
+    console.log(houseData);
+
+    houses.push(houseData);
+
+    houses[houseId].houseId = houseId;
+
+    console.log(houses);
+
+    res.redirect(`house/${houseId}`);
+
+    houseId++;
+});
 
 
 app.all('*', (req, res) => {
