@@ -36,12 +36,20 @@ app.get('/login', (req, res) =>{
 app.get('/user/:id', (req, res) =>{
     const {id} = req.params;
 
+    let idExist = false;
+    let neededUser = 0;
+
     console.log(id);
 
     users.forEach((user)=>{
-        user.userId === +id ? res.render('user', {username:` ${user.userName}`, userEmail: `${user.email}`, userId: `${user.userId}`})
-            : res.end('No such user in base');
+        if (user.userId === +id) {
+            idExist = true;
+            neededUser = user.userId;
+        }
     });
+
+    idExist? res.render('user', {username:` ${users[neededUser].userName}`, userEmail: `${users[neededUser].email}`, userId: `${users[neededUser].userId}`})
+        : res.render('login');
 });
 
 app.get('/register', (req, res) =>{
@@ -51,10 +59,18 @@ app.get('/register', (req, res) =>{
 app.get('/house/:id', (req, res)=>{
     const {id} = req.params;
 
+    let idExist = false;
+    let neededHouse = 0;
+
     houses.forEach((house)=>{
-        house.houseId === +id ? res.render('house', {city:`${house.city}`, meters:`${house.meters}`, price:`${house.price}`, street:`${house.street}`})
-            : res.end('No house user in base');
+        if (house.houseId === +id) {
+            idExist = true;
+            neededHouse = house.houseId;
+        }
     });
+
+    idExist? res.render('house', {city:`${houses[neededHouse].city}`, meters:`${houses[neededHouse].meters}`, price:`${houses[neededHouse].price}`, street:`${houses[neededHouse].street}`})
+        : res.end('No such house in base');
 });
 
 app.get('/houseCreator', (req,res)=>{
@@ -64,12 +80,20 @@ app.get('/houseCreator', (req,res)=>{
 app.post('/login', (req, res) => {
     const loginData = req.body;
 
+    let userExist = false;
+    let neededUser = 0;
+
     console.log(loginData);
 
     users.forEach((user)=>{
-        user.email === loginData.userEmail && user.userPass === loginData.userPass ? res.redirect(`user/${user.userId}`)
-            :res.render('login', {try: 'Your email or password may be incorrect'});
+        if (user.email === loginData.userEmail && user.userPass === loginData.userPass) {
+            neededUser = user.userId;
+            userExist = true;
+        }
     });
+
+    userExist? res.redirect(`user/${users[neededUser].userId}`)
+        :res.render('login', {try: 'Your email or password may be incorrect'});
 });
 
 app.post('/register', (req, res) => {
