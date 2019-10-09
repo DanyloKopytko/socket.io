@@ -11,5 +11,11 @@
 <p>Your name: {{username}}</p>
 <p>your email: {{userEmail}}</p>
 <p>Your id: {{userId}}</p>
+<h2>You can change something</h2>
+<form action="/users/{{userId}}" method="post">
+    <p>Name:</p><input type="text" name="name">
+    <p>Email:</p><input type="email" name="email">
+    <input type="submit">
+</form>
 </body>
 </html>

@@ -13,5 +13,13 @@
 <p>Price: {{price}}</p>
 <p>Street: {{street}}</p>
 <img src="./apartments.jpg" alt="apartments">
+<h1>You can change something</h1>
+<form action="/houses/{{id}}" method="post">
+    <p>City:</p><input type="text" name="city">
+    <p>Meters:</p><input type="number" name="meters">
+    <p>Price:</p><input type="number" name="price">
+    <p>Street:</p><input type="text" name="street">
+    <input type="submit">
+</form>
 </body>
 </html>

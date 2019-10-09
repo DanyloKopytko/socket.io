@@ -17,120 +17,47 @@ app.set('view engine', '.hbs');
 
 app.set('views', path.join(__dirname ,'static'));
 
-let users = [];
-
-let houses = [];
-
-let userId = 0;
-
-let houseId = 0;
+let { user, house } = require('./controllers');
+let { user: middlewareUser, house: middlewareHouse } = require('./middleware');
 
 app.get('/', (req, res) =>{
     res.render('main');
 });
 
-app.get('/login', (req, res) =>{
-    res.render('login');
-});
-
-app.get('/user/:id', (req, res) =>{
-    const {id} = req.params;
-
-    let idExist = false;
-    let neededUser = 0;
-
-    console.log(id);
-
-    users.forEach((user)=>{
-        if (user.userId === +id) {
-            idExist = true;
-            neededUser = user.userId;
-        }
-    });
-
-    idExist? res.render('user', {username:` ${users[neededUser].userName}`, userEmail: `${users[neededUser].email}`, userId: `${users[neededUser].userId}`})
-        : res.render('login');
-});
+//users
 
 app.get('/register', (req, res) =>{
     res.render('register');
 });
 
-app.get('/house/:id', (req, res)=>{
-    const {id} = req.params;
+app.post('/register',middlewareUser.checkUserValidityMiddleWare, user.createUser);
 
-    let idExist = false;
-    let neededHouse = 0;
-
-    houses.forEach((house)=>{
-        if (house.houseId === +id) {
-            idExist = true;
-            neededHouse = house.houseId;
-        }
-    });
-
-    idExist? res.render('house', {city:`${houses[neededHouse].city}`, meters:`${houses[neededHouse].meters}`, price:`${houses[neededHouse].price}`, street:`${houses[neededHouse].street}`})
-        : res.end('No such house in base');
-});
-
-app.get('/houseCreator', (req,res)=>{
-    res.render('houseCreator');
-});
-
-app.post('/login', (req, res) => {
-    const loginData = req.body;
-
-    let userExist = false;
-    let neededUser = 0;
-
-    console.log(loginData);
-
-    users.forEach((user)=>{
-        if (user.email === loginData.userEmail && user.userPass === loginData.userPass) {
-            neededUser = user.userId;
-            userExist = true;
-        }
-    });
-
-    userExist? res.redirect(`user/${users[neededUser].userId}`)
-        :res.render('login', {try: 'Your email or password may be incorrect'});
-});
-
-app.post('/register', (req, res) => {
-    const userData = req.body;
-
-    users.push(userData);
-
-    users[userId].userId = userId;
-
-    userId++;
-
-    console.log(users);
-
+app.get('/login', (req, res) =>{
     res.render('login');
 });
 
-app.post('/houseCreator', (req, res) => {
-    const houseData = req.body;
+app.post('/login', middlewareUser.loginDataValidation, user.loginUser);
 
-    console.log(houseData);
+app.get('/users/:id', middlewareUser.isUserExist, user.getUser);
 
-    houses.push(houseData);
+app.post('/users/:id', middlewareUser.checkUpdateUserValidityMiddleWare, middlewareUser.isUserExist, user.updateUser);
 
-    houses[houseId].houseId = houseId;
+//houses
 
-    console.log(houses);
-
-    res.redirect(`house/${houseId}`);
-
-    houseId++;
+app.get('/houses', (req,res)=>{
+    res.render('houseCreator');
 });
 
+app.post('/houseCreator', middlewareHouse.checkInputHouseDataValidity,house.createHouse);
+
+app.get('/houses/:id', middlewareHouse.isHouseExist, house.getHouse);
+
+app.post('/houses/:id', middlewareHouse.checkUpdateInputDataHouse, middlewareHouse.isHouseExist, house.updateHouse);
+
+//miscellaneous
 
 app.all('*', (req, res) => {
     res.end('Error 404');
 });
 
-app.listen(3000, ()=>{
-    console.log('Proslushka poshla');
-});
+app.listen(3000, ()=>{});
