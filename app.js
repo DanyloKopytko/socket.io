@@ -3,6 +3,9 @@ const expHbs = require('express-handlebars');
 const path = require('path');
 
 const app = express();
+const db = require('./database').getInstance();
+
+db.setModels();
 
 app.use(express.static(path.join(__dirname ,'static')));
 
@@ -17,47 +20,28 @@ app.set('view engine', '.hbs');
 
 app.set('views', path.join(__dirname ,'static'));
 
-let { user, house } = require('./controllers');
-let { user: middlewareUser, house: middlewareHouse } = require('./middleware');
+let { render404, renderMain} = require('./render');
+let { userRouter, houseRouter } = require('./router');
 
-app.get('/', (req, res) =>{
-    res.render('main');
-});
+
+app.get('/', renderMain);
 
 //users
 
-app.get('/register', (req, res) =>{
-    res.render('register');
-});
+app.use('/register', userRouter.userRegister);
 
-app.post('/register',middlewareUser.checkUserValidityMiddleWare, user.createUser);
+app.use('/auth', userRouter.userLogin);
 
-app.get('/login', (req, res) =>{
-    res.render('login');
-});
-
-app.post('/login', middlewareUser.loginDataValidation, user.loginUser);
-
-app.get('/users/:id', middlewareUser.isUserExist, user.getUser);
-
-app.post('/users/:id', middlewareUser.checkUpdateUserValidityMiddleWare, middlewareUser.isUserExist, user.updateUser);
+app.use('/users', userRouter.getUser);
 
 //houses
 
-app.get('/houses', (req,res)=>{
-    res.render('houseCreator');
-});
+app.use('/houseCreator', houseRouter.createHouse);
 
-app.post('/houseCreator', middlewareHouse.checkInputHouseDataValidity,house.createHouse);
-
-app.get('/houses/:id', middlewareHouse.isHouseExist, house.getHouse);
-
-app.post('/houses/:id', middlewareHouse.checkUpdateInputDataHouse, middlewareHouse.isHouseExist, house.updateHouse);
+app.use('/houses', houseRouter.getHouse);
 
 //miscellaneous
 
-app.all('*', (req, res) => {
-    res.end('Error 404');
-});
+app.all('*', render404);
 
 app.listen(3000, ()=>{});

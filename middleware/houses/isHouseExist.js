@@ -1,17 +1,19 @@
-const {provider} = require('../../database');
+const dataBase = require('../../database').getInstance();
 
 module.exports = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const query = `SELECT * FROM house WHERE id = ?`;
-        const [houseExist] = await provider.promise().query(query, [id]);
+        const HouseModel = dataBase.getModel('House');
 
-        if (!houseExist.length) {
+        let houseExist = await HouseModel.findByPk(id);
+
+        if (!houseExist) {
             throw new Error('No such house in base');
         }
 
-        req.house = houseExist;
+        req.house = houseExist.dataValues;
         req.id = id;
+
         next();
     } catch (e) {
         res.status(400).json(e.message);

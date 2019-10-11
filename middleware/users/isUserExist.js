@@ -1,18 +1,18 @@
-//done
-
-const {provider} = require('../../database');
+const dataBase = require('../../database').getInstance();
 
 module.exports = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const query = `SELECT * FROM user WHERE id = ?`;
-        const [userExist] = await provider.promise().query(query, [id]);
+        const UserModel = dataBase.getModel('User');
 
-        if (!userExist.length) {
+        let userExist = await UserModel.findByPk(id);
+
+        if (!userExist) {
           throw new Error('No such user in base');
         }
 
-        req.user = userExist;
+        req.user = userExist.dataValues;
+
         next();
     } catch (e) {
         res.status(400).json(e.message);

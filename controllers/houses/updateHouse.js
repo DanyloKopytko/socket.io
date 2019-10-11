@@ -1,12 +1,16 @@
-const {provider} = require('../../database');
+const dataBase = require('../../database').getInstance();
 
 module.exports = async (req, res) => {
     try {
         const { id } = req.params;
-        const  { city, meters, price, street} = req.body;
-        const query = `UPDATE house SET city = ?, meters = ?, price = ?, street = ? WHERE id = ?`;
+        const dataToUpdate = req.body;
+        const HouseModel = dataBase.getModel('House');
 
-        await provider.promise().query(query, [city, meters, price, street, id]);
+        await HouseModel.update(dataToUpdate, {
+            where: {
+                id: id
+            }
+        });
 
         res.redirect(`/houses/${id}`);
     } catch (e) {
