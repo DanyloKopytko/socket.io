@@ -7,6 +7,6 @@ router.get('/:id', middlewareUser.isUserExist, user.getUser);
 
 router.post('/:id', middlewareUser.checkUpdateUserValidityMiddleWare, middlewareUser.isUserExist, user.updateUser);
 
-router.post('/',middlewareUser.checkUserValidityMiddleWare, user.createUser);
+router.post('/', middlewareUser.checkUserValidityMiddleWare, user.createUser);
 
 module.exports = router;

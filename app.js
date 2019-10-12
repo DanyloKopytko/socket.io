@@ -21,7 +21,7 @@ app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname ,'static'));
 
 let { render404, renderMain} = require('./render');
-let { userRouter, houseRouter } = require('./router');
+let { userRouter, houseRouter, authRouter } = require('./router');
 
 
 app.get('/', renderMain);
@@ -30,7 +30,7 @@ app.get('/', renderMain);
 
 app.use('/register', userRouter.userRegister);
 
-app.use('/auth', userRouter.userLogin);
+app.use('/auth', authRouter.userLogin);
 
 app.use('/users', userRouter.getUser);
 

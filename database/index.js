@@ -16,7 +16,7 @@ module.exports = (() => {
         function getModels() {
             fs.readdir('./database/models', (err, file) => {
                 file.forEach(file => {
-                    const modelName = file.split('.')[0];
+                    const [modelName] = file.split('.');
 
                     models[modelName] = client.import(resolve(`./database/models/${modelName}`));
                 });

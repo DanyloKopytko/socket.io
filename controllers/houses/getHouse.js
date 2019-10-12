@@ -1,6 +1,5 @@
 module.exports = (req, res) =>{
-    const neededHouse = req.house;
-    const id = req.id;
+    const {city, meters, price, street, id} = req.house;
 
-    res.render('house', {city:` ${neededHouse.city}`, meters: `${neededHouse.meters}`, price: `${neededHouse.price}`, street:`${neededHouse.street}`, id:`${id}`});
+    res.render('house', {city:` ${city}`, meters: `${meters}`, price: `${price}`, street:`${street}`, id:`${id}`});
 };

@@ -12,7 +12,6 @@ module.exports = async (req, res, next) => {
         }
 
         req.house = houseExist.dataValues;
-        req.id = id;
 
         next();
     } catch (e) {

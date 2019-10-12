@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes)=>{
             allowNull: false
         },
         meters: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.DECIMAL,
             allowNull: false
         },
         price: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.DECIMAL,
             allowNull: false
         },
         street: {

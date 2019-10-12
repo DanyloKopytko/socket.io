@@ -1,7 +1,7 @@
 //done
 
 module.exports = (req, res) =>{
-    const neededUser = req.user;
+    const {name, email, id} = req.user;
 
-    res.render('user', {username:` ${neededUser.name}`, userEmail: `${neededUser.email}`, userId: `${neededUser.id}`});
+    res.render('user', {username:` ${name}`, userEmail: `${email}`, userId: `${id}`});
 };
