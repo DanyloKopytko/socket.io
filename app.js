@@ -30,13 +30,11 @@ app.get('/', renderMain);
 
 app.use('/register', userRouter.userRegister);
 
-app.use('/oauth', userRouter.userLogin);
+app.use('/auth', userRouter.userLogin);
 
 app.use('/users', userRouter.getUser);
 
 //houses
-
-app.use('/houseCreator', houseRouter.createHouse);
 
 app.use('/houses', houseRouter.getHouse);
 
