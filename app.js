@@ -30,7 +30,7 @@ app.get('/', renderMain);
 
 app.use('/register', userRouter.userRegister);
 
-app.use('/auth', userRouter.userLogin);
+app.use('/oauth', userRouter.userLogin);
 
 app.use('/users', userRouter.getUser);
 
