@@ -2,10 +2,10 @@ const dataBase = require('../../database').getInstance();
 
 module.exports = async (req, res, next) => {
     try {
-        const { id } = req.params;
+        const { user_id } = req.params;
         const UserModel = dataBase.getModel('User');
 
-        let userExist = await UserModel.findByPk(id);
+        let userExist = await UserModel.findByPk(user_id);
 
         if (!userExist) {
           throw new Error('No such user in base');
