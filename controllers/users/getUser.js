@@ -1,5 +1,5 @@
 module.exports = (req, res) =>{
-    const {name, email, user_id} = req.user;
+    const {id: user_id, name, email} = req.user;
 
-    res.render('user', {username:` ${name}`, userEmail: `${email}`, userId: `${user_id}`});
+    res.render('user', {username: `${name}`, userEmail: `${email}`, userId: `${user_id}`});
 };

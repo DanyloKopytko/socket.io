@@ -1,5 +1,5 @@
 module.exports = (req, res) => {
-    const neededUser = req.user;
+    const {id: user_id} = req.user;
 
-    res.redirect(`users/${neededUser.id}`);
+    res.redirect(`users/${user_id}`);
 };

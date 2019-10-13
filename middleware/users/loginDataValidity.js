@@ -7,8 +7,8 @@ module.exports = async (req, res, next) => {
 
         let userExist = await UserModel.findOne({
             where: {
-                email: email,
-                password: password
+                email,
+                password
             },
             attributes: ['id']
         });
