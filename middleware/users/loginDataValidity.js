@@ -5,13 +5,13 @@ module.exports = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
-        const userExist = await authService.login(email, password);
+        const { dataValues } = await authService.login(email, password);
 
-        const token = tokinizer(userExist.dataValues);
+        const token = tokinizer(dataValues);
 
-        req.user = userExist.dataValues;
+        req.user = dataValues;
 
-        await authService.tokenToDataBase(userExist.dataValues.id, token.accessToken, token.refreshToken);
+        await authService.tokenToDataBase(dataValues.id, token.accessToken, token.refreshToken);
 
         next();
     } catch (e) {
