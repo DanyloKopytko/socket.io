@@ -1,4 +1,4 @@
-const {houseValidators} = require('../../validators');
+const { houseValidators } = require('../../validators');
 
 module.exports = (req, res, next) => {
     try {

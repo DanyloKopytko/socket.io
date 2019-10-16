@@ -1,15 +1,10 @@
-const dataBase = require('../../database').getInstance();
+const { userService } = require('../../service');
 
 module.exports = async (req, res, next) => {
     try {
         const { user_id } = req.params;
-        const UserModel = dataBase.getModel('User');
 
-        let userExist = await UserModel.findByPk(user_id);
-
-        if (!userExist) {
-          throw new Error('No such user in base');
-        }
+        const userExist = await userService.getById(user_id);
 
         req.user = userExist.dataValues;
 

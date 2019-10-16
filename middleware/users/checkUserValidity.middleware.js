@@ -1,5 +1,3 @@
-//done
-
 const {userValidator} = require('../../validators');
 
 module.exports = (req, res, next) => {

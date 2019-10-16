@@ -1,15 +1,10 @@
-const dataBase = require('../../database').getInstance();
+const { houseService } = require('../../service');
 
 module.exports = async (req, res, next) => {
     try {
         const { house_id } = req.params;
-        const HouseModel = dataBase.getModel('House');
 
-        let houseExist = await HouseModel.findByPk(house_id);
-
-        if (!houseExist) {
-            throw new Error('No such house in base');
-        }
+        const houseExist = await houseService.getById(house_id);
 
         req.house = houseExist.dataValues;
 

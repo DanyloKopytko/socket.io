@@ -5,7 +5,7 @@ const { user } = require('../../controllers');
 
 router.get('/:user_id', middlewareUser.isUserExist, user.getUser);
 
-router.post('/:user_id', middlewareUser.checkUpdateUserValidityMiddleWare, middlewareUser.isUserExist, user.updateUser);
+router.post('/:user_id', middlewareUser.checkUpdateUserValidityMiddleWare, middlewareUser.isUserExist, middlewareUser.checkAccessTokenMiddleWare, user.updateUser);
 
 router.post('/', middlewareUser.checkUserValidityMiddleWare, user.createUser);
 

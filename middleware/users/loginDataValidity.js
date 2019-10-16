@@ -1,23 +1,17 @@
-const dataBase = require('../../database').getInstance();
+const { authService } = require('../../service');
+const { tokinizer } = require('../../helpers');
 
 module.exports = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-        const UserModel = dataBase.getModel('User');
 
-        let userExist = await UserModel.findOne({
-            where: {
-                email,
-                password
-            },
-            attributes: ['id']
-        });
+        const userExist = await authService.login(email, password);
 
-        if (!userExist) {
-            throw new Error('Bad login or password');
-        }
+        const token = tokinizer(userExist.dataValues);
 
         req.user = userExist.dataValues;
+
+        await authService.tokenToDataBase(userExist.dataValues.id, token.accessToken, token.refreshToken);
 
         next();
     } catch (e) {
