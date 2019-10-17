@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
 
         const userExist = await userService.getById(user_id);
 
-        req.user = userExist.dataValues;
+        req.userData = userExist.dataValues;
 
         next();
     } catch (e) {

@@ -1,5 +1,5 @@
-const { tokenVerificator } = require('../../helpers');
-const { authService } = require('../../service');
+const { tokenVerificator } = require('../helpers');
+const { authService } = require('../service');
 
 module.exports = async (req, res, next) => {
     try {
@@ -9,15 +9,15 @@ module.exports = async (req, res, next) => {
             throw new Error('No token dude');
         }
 
-        const foundedToken =  await authService.findTokenInDB(token);
+        const foundedToken = await authService.findTokenInDB(token);
 
         if (!foundedToken) {
             throw new Error('No such token in base');
         }
 
-        const { id: user_id } = tokenVerificator(token);
+        const { id: userIdFromToken } = tokenVerificator(token);
 
-        req.user = user_id;
+        req.user = userIdFromToken;
 
         next();
     } catch (e) {

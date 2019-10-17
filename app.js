@@ -10,7 +10,7 @@ db.setModels();
 app.use(express.static(path.join(__dirname ,'static')));
 
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended:true }));
 
 app.engine('hbs', expHbs({
     defaultLayout: null,
@@ -20,7 +20,7 @@ app.set('view engine', '.hbs');
 
 app.set('views', path.join(__dirname ,'static'));
 
-let { render404, renderMain} = require('./render');
+let { render404, renderMain } = require('./render');
 let { userRouter, houseRouter, authRouter } = require('./router');
 
 
