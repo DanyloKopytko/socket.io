@@ -1,15 +1,9 @@
 const { houseService } = require('../../service');
-const { user: middlewareUser } = require('../../middleware');
 
 module.exports = async (req, res) => {
     try {
         const { house_id } = req.params;
         const dataToUpdate = req.body;
-        const { id: userIdFromToken } = req.user;
-
-        const { user_id } = await houseService.getById(house_id);
-
-        middlewareUser.checkIsThisAPageOfCurrentUserMiddleWare(user_id, userIdFromToken);
 
         await houseService.update(dataToUpdate, house_id);
 

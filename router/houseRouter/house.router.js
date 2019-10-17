@@ -4,11 +4,17 @@ const { house: middlewareHouse, user: middlewareUser } = require('../../middlewa
 const { house } = require('../../controllers');
 const { renderHouse } = require('../../render');
 
-router.post('/:house_id', middlewareHouse.checkUpdateInputDataHouse, middlewareHouse.isHouseExist, middlewareUser.checkAccessTokenMiddleWare, house.updateHouse);
+router.post(
+    '/:house_id',
+    middlewareHouse.checkUpdateInputDataHouse,
+    middlewareHouse.isHouseExist,
+    middlewareHouse.checkAccessTokenForActionsWithHouses,
+    house.updateHouse
+);
 
 router.get('/:house_id', middlewareHouse.isHouseExist, house.getHouse);
 
-router.post('/', middlewareHouse.checkInputHouseDataValidity, middlewareUser.checkAccessTokenMiddleWare, house.createHouse);
+router.post('/', middlewareHouse.checkInputHouseDataValidity, middlewareHouse.checkAccessTokenForHouseCreation, house.createHouse);
 
 router.get('/', renderHouse.houseCreator);
 

@@ -1,13 +1,9 @@
 const { userService } = require('../../service');
-const { user: middlewareUser } = require('../../middleware');
 
 module.exports = async (req, res) => {
     try {
         const { user_id } = req.params;
         const dataToUpdate = req.body;
-        const { id: userIdFromToken } = req.user;
-
-        middlewareUser.checkIsThisAPageOfCurrentUserMiddleWare(user_id, userIdFromToken);
 
         await userService.update(dataToUpdate, user_id);
 
