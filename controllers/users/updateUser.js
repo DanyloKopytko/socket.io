@@ -1,4 +1,5 @@
 const { userService } = require('../../service');
+const { user: middlewareUser } = require('../../middleware');
 
 module.exports = async (req, res) => {
     try {
@@ -6,9 +7,7 @@ module.exports = async (req, res) => {
         const dataToUpdate = req.body;
         const { id: userIdFromToken } = req.user;
 
-        if (+user_id !== userIdFromToken) {
-            throw new Error('This is not your page, invader');
-        }
+        middlewareUser.checkIsThisAPageOfCurrentUser(user_id, userIdFromToken);
 
         await userService.update(dataToUpdate, user_id);
 

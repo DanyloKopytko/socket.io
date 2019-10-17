@@ -1,4 +1,5 @@
 const { houseService } = require('../../service');
+const { user: middlewareUser } = require('../../middleware');
 
 module.exports = async (req, res) => {
     try {
@@ -8,9 +9,7 @@ module.exports = async (req, res) => {
 
         const { user_id } = await houseService.getById(house_id);
 
-        if ( user_id !== userIdFromToken) {
-            throw new Error('This is not your house, invader');
-        }
+        middlewareUser.checkIsThisAPageOfCurrentUser(user_id, userIdFromToken);
 
         await houseService.update(dataToUpdate, house_id);
 
