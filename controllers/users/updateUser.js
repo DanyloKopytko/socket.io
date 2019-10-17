@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
         const dataToUpdate = req.body;
         const { id: userIdFromToken } = req.user;
 
-        middlewareUser.checkIsThisAPageOfCurrentUser(user_id, userIdFromToken);
+        middlewareUser.checkIsThisAPageOfCurrentUserMiddleWare(user_id, userIdFromToken);
 
         await userService.update(dataToUpdate, user_id);
 

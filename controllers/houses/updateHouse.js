@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
 
         const { user_id } = await houseService.getById(house_id);
 
-        middlewareUser.checkIsThisAPageOfCurrentUser(user_id, userIdFromToken);
+        middlewareUser.checkIsThisAPageOfCurrentUserMiddleWare(user_id, userIdFromToken);
 
         await houseService.update(dataToUpdate, house_id);
 
