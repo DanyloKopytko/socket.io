@@ -1,16 +1,21 @@
 const express = require('express');
 const expHbs = require('express-handlebars');
 const path = require('path');
+const fileUpload = require('express-fileupload');
 
 const app = express();
 const db = require('./database').getInstance();
 
 db.setModels();
 
-app.use(express.static(path.join(__dirname ,'static')));
+app.use(express.static(path.join(__dirname , 'static')));
 
 app.use(express.json());
-app.use(express.urlencoded({ extended:true }));
+app.use(express.urlencoded({ extended: true }));
+
+app.use(fileUpload());
+
+global.appRoot = __dirname;
 
 app.engine('hbs', expHbs({
     defaultLayout: null,
@@ -18,10 +23,10 @@ app.engine('hbs', expHbs({
 
 app.set('view engine', '.hbs');
 
-app.set('views', path.join(__dirname ,'static'));
+app.set('views', path.join(__dirname , 'static'));
 
-let { render404, renderMain } = require('./render');
-let { userRouter, houseRouter, authRouter } = require('./router');
+const { render404, renderMain } = require('./render');
+const { userRouter, houseRouter, authRouter } = require('./router');
 
 
 app.get('/', renderMain);

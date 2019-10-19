@@ -12,10 +12,23 @@ router.post(
     house.updateHouse
 );
 
-router.get('/:house_id', middlewareHouse.isHouseExist, house.getHouse);
+router.get(
+    '/:house_id',
+    middlewareHouse.isHouseExist,
+    house.getHouse
+);
 
-router.post('/', middlewareHouse.checkInputHouseDataValidity, checkAccessToken, house.createHouse);
+router.post(
+    '/',
+    checkAccessToken,
+    middlewareHouse.checkInputHouseDataValidity,
+    middlewareHouse.checkFilesForHousesMiddleWare,
+    house.createHouse
+);
 
-router.get('/', renderHouse.houseCreator);
+router.get(
+    '/',
+    renderHouse.houseCreator
+);
 
 module.exports = router;

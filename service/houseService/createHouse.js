@@ -5,11 +5,13 @@ module.exports = async (houseToCreate, user_id) => {
 
     const { meters, city, price, street } = houseToCreate;
 
-    await HouseModel.create({
+    const house = await HouseModel.create({
         user_id,
         meters,
         city,
         price,
         street
     });
+
+    return house;
 };
