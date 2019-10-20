@@ -26,6 +26,13 @@ router.post(
     house.createHouse
 );
 
+router.delete(
+    '/:house_id',
+    checkAccessToken,
+    middlewareHouse.isHouseExist,
+    house.deleteHouse
+);
+
 router.get(
     '/',
     renderHouse.houseCreator
