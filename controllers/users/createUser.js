@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
 
         await photoService.uploadUserPhotos(userToCreate.name, file, user_id);
 
-        await emailService.sendEmail(userToCreate.email);
+        // await emailService.sendEmail(userToCreate.email);
 
         res.render('login');
     } catch (e) {

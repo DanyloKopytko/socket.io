@@ -24,4 +24,11 @@ router.post(
     user.createUser
 );
 
+router.delete(
+    '/:user_id',
+    checkAccessToken,
+    middlewareUser.isUserExist,
+    user.deleteUser
+);
+
 module.exports = router;
