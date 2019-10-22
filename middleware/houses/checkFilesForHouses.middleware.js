@@ -7,10 +7,9 @@ module.exports = (req, res, next) => {
         }
 
         const [ file ] = Object.values(req.files);
-        console.log(file);
+
         if (file.length > 1) {
             file.forEach((item) => {
-                console.log(item);
                 if (!approvedFilesTypes.includes(item.mimetype)) {
                     throw new Error('One of the photos have invalid extension');
                 }
