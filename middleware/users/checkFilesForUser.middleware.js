@@ -2,21 +2,21 @@ const { approvedFilesTypes } = require('../../config');
 
 module.exports = (req, res, next) => {
     try {
-        if (!req.files || !req.files.file) {
+        if (!req.files) {
             return next();
         }
 
-        const { file } = req.files;
+        const file = Object.values(req.files);
 
-        if (file.length) {
+        if (file.length > 1) {
             throw new Error('You can upload only one image!');
         } else {
-            if (!approvedFilesTypes.includes(file.mimetype)) {
+            if (!approvedFilesTypes.includes(file[0].mimetype)) {
                 throw new Error('Invalid photo extension');
             }
         }
 
-        req.photo = file;
+        req.photo = file[0];
 
         next();
     } catch (e) {
