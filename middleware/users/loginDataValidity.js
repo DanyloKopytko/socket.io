@@ -13,6 +13,8 @@ module.exports = async (req, res, next) => {
 
         await authService.tokenToDataBase(dataValues.id, token.accessToken, token.refreshToken);
 
+        global.currentUser = dataValues.name;
+
         next();
     } catch (e) {
         res.status(400).json(e.message);

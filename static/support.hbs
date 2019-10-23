@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body style="display: flex; flex-direction: column; width: 25%">
+<input type="text" id="message">
+<button id="sendMessageToAllBtn">Send message</button>
+<br>
+<input type="text" id="roomId">
+<button id="joinRoom">Join room</button>
+<br>
+<input type="text" id="messageToRoom">
+<button id="sendMessageToRoomBtn">Send message</button>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    const inputWithMessage = document.getElementById('message');
+    const sendMessageToAllBtn = document.getElementById('sendMessageToAllBtn');
+
+    const roomId = document.getElementById('roomId');
+    const joinRoom = document.getElementById('joinRoom');
+
+    const inputWithMessageToRoom = document.getElementById('messageToRoom');
+    const sendMessageToRoomBtn = document.getElementById('sendMessageToRoomBtn');
+
+    let room_id;
+
+    joinRoom.onclick = () => {
+        room_id = roomId.value;
+
+        socket.emit('joinRoom', {room_id});
+    };
+
+    sendMessageToRoomBtn.onclick = () => {
+        room_id = roomId.value;
+
+        socket.emit('msgToRoom', {data: inputWithMessageToRoom.value, room_id});
+
+        inputWithMessageToRoom.value = '';
+    };
+
+    socket.on('sendMsgToRoom', data => {
+        const div = document.createElement('div');
+
+        div.style.border = '2px solid blue';
+        div.style.padding = '5px';
+        div.style.marginTop = '10px';
+
+        div.innerText = `User: ${data.id} \n Message: ${data.data}`;
+
+        document.body.appendChild(div);
+    });
+
+
+    socket.on('userCon', data => {
+        const div = document.createElement('div');
+
+        div.style.border = '2px solid green';
+        div.style.padding = '5px';
+        div.style.marginTop = '10px';
+
+        div.innerText = `User: ${data.id} was connected`;
+
+        document.body.appendChild(div);
+    });
+
+    sendMessageToAllBtn.onclick = () => {
+        socket.emit('sendMsgToAll', inputWithMessage.value);
+
+        inputWithMessage.value = '';
+    };
+
+    socket.on('resToAll', data => {
+        const div = document.createElement('div');
+
+        div.style.border = '2px solid blue';
+        div.style.padding = '5px';
+        div.style.marginTop = '10px';
+
+        div.innerText = `User: ${data.id} \n Message: ${data.data}`;
+
+        document.body.appendChild(div);
+    });
+
+    socket.on('userDisc', data => {
+        const div = document.createElement('div');
+
+        div.style.border = '2px solid red';
+        div.style.padding = '5px';
+        div.style.marginTop = '10px';
+
+        div.innerText = `User: ${data.id} was disconnected`;
+
+        document.body.appendChild(div);
+    });
+</script>
+</body>
+</html>
